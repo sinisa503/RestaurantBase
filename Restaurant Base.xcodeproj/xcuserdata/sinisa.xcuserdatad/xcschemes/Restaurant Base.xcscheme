@@ -5,6 +5,22 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "02A5BC931E8ABCB600C95C11"
+               BuildableName = "Restaurant Base.app"
+               BlueprintName = "Restaurant Base"
+               ReferencedContainer = "container:Restaurant Base.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
    </BuildAction>
    <TestAction
       buildConfiguration = "Debug"
@@ -12,7 +28,36 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "02A5BCAC1E8ABCB600C95C11"
+               BuildableName = "Restaurant BaseTests.xctest"
+               BlueprintName = "Restaurant BaseTests"
+               ReferencedContainer = "container:Restaurant Base.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "02A5BCB71E8ABCB600C95C11"
+               BuildableName = "Restaurant BaseUITests.xctest"
+               BlueprintName = "Restaurant BaseUITests"
+               ReferencedContainer = "container:Restaurant Base.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "02A5BC931E8ABCB600C95C11"
+            BuildableName = "Restaurant Base.app"
+            BlueprintName = "Restaurant Base"
+            ReferencedContainer = "container:Restaurant Base.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -26,6 +71,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "02A5BC931E8ABCB600C95C11"
+            BuildableName = "Restaurant Base.app"
+            BlueprintName = "Restaurant Base"
+            ReferencedContainer = "container:Restaurant Base.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -35,6 +90,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "02A5BC931E8ABCB600C95C11"
+            BuildableName = "Restaurant Base.app"
+            BlueprintName = "Restaurant Base"
+            ReferencedContainer = "container:Restaurant Base.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
