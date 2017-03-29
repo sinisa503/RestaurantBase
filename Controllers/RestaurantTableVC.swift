@@ -13,22 +13,27 @@ class RestaurantTableVC: UITableViewController, NSFetchedResultsControllerDelega
 
     var detailViewController: MapVC? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
-    var context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    var context: NSManagedObjectContext?
     
     let service: RequestService = RequestService()
     let persistenceManager = PerstistenceManager.sharedInstance
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationItem.leftBarButtonItem = self.editButtonItem
-
+        context = appDelegate.persistentContainer.viewContext
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(insertNewObject(_:)))
         self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MapVC
         }
+        let rest = Restaurant(name: "Kakadu", address: "labim", longitude: 23.23, latitude: 12.12)
+        Restoran.updateRestaurantIfNotPresent(rest, context!)
     }
 
     override func viewWillAppear(_ animated: Bool) {

@@ -15,3 +15,7 @@ struct API {
     public static let LONGITUDE = "Longitude"
     public static let LATITUDE = "Latitude"
 }
+
+struct DataBaseConstants {
+    public static let RESTORAN = "Restoran"
+}
