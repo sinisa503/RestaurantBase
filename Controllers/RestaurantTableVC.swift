@@ -9,14 +9,22 @@
 import UIKit
 import CoreData
 
-class RestaurantTableVC: CoreDataTableViewController {
+class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     
     var detailViewController: MapVC? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    let apiService = RequestService.sharedInstance
+    let persistanceManager = PerstistenceManager.sharedInstance
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let context = managedObjectContext {
+            persistanceManager.clearDatabase(context)
+        }
+        
+        apiService.delegate = self
 
         setUpBarButtons()
         managedObjectContext = appDelegate.persistentContainer.viewContext
@@ -35,9 +43,9 @@ class RestaurantTableVC: CoreDataTableViewController {
     
     private func setUpBarButtons() {
         self.navigationItem.leftBarButtonItem = self.editButtonItem
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self,
-                            action: #selector(RestaurantTableVC.insertNewObject(_:)))
-        self.navigationItem.rightBarButtonItem = addButton
+   /*     let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self,
+                            action: #selector(RestaurantTableVC.insertNewObject(_:)))*/
+        //self.navigationItem.rightBarButtonItem = addButton
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MapVC
@@ -46,17 +54,16 @@ class RestaurantTableVC: CoreDataTableViewController {
     
     // MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        /*
          if segue.identifier == "showDetail" {
          if let indexPath = self.tableView.indexPathForSelectedRow {
-         let object = self.fetchedResultsController.object(at: indexPath)
-         let controller = (segue.destination as! UINavigationController).topViewController as! MapVC
-         controller.detailItem = object
-         controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-         controller.navigationItem.leftItemsSupplementBackButton = true
+         let object = self.fetchedResultsController?.object(at: indexPath) as? Restoran
+         let restoran = Restaurant(name: (object?.name)!, address: (object?.address)!, longitude: (object?.longitude)!, latitude: (object?.latitude)!)
+         let mapVC = (segue.destination as! UINavigationController).topViewController as! MapVC
+         mapVC.restaurant = restoran
+         mapVC.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+         mapVC.navigationItem.leftItemsSupplementBackButton = true
          }
          }
-         */
     }
     
     // MARK: - Table View delegate
@@ -86,14 +93,19 @@ class RestaurantTableVC: CoreDataTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        print("Can Edit")
         return true
     }
     
-    @objc private func insertNewObject(_ sender: Any) {
+    private func insertNewObject(restaurant: Restaurant) {
         //TODO: Implement inserting new object
         print("Insert new object...")
-        let rest = Restaurant(name: NSDate.description(), address: NSDate().description, longitude: 12.1212, latitude: 23.1234)
-        PerstistenceManager.updateRestaurantIfNotPresent(rest, managedObjectContext!)
+        persistanceManager.updateRestaurantIfNotPresent(restaurant, managedObjectContext!)
+    }
+    func apiFinished(restaurantArray: [Restaurant]?) {
+        if let restaurants = restaurantArray {
+            for restaurant in restaurants {
+                insertNewObject(restaurant: restaurant)
+            }
+        }
     }
 }

@@ -7,39 +7,49 @@
 //
 
 import UIKit
+import CoreLocation
+import MapKit
 
-class MapVC: UIViewController {
+class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
-    @IBOutlet weak var detailDescriptionLabel: UILabel!
-
-
+    @IBOutlet weak var map: MKMapView!
+    
+    private var locationManager = CLLocationManager()
+    var restaurant: Restaurant?
+    
+    override func viewWillAppear(_ animated: Bool) {
+        configureView()
+    }
+    
     func configureView() {
-        // Update the user interface for the detail item.
-        if let detail = self.detailItem {
-            if let label = self.detailDescriptionLabel {
-                label.text = detail.timestamp!.description
-            }
+        if let restaurant = restaurant {
+            let location = CLLocationCoordinate2D(latitude: restaurant.latitude, longitude: restaurant.longitude)
+            addAnotationTo(location: location)
+            zoomMapTo(location: location)
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
         self.configureView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    private func addAnotationTo(location: CLLocationCoordinate2D) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = location
+        annotation.title = restaurant?.name
+        annotation.subtitle = restaurant?.address
+        map.addAnnotation(annotation)
     }
-
-    var detailItem: Event? {
-        didSet {
-            // Update the view.
-            self.configureView()
-        }
+    
+    private func zoomMapTo(location: CLLocationCoordinate2D){
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let region = MKCoordinateRegionMake(location, span)
+        map.setRegion(region, animated: true)
     }
-
-
 }
 

@@ -15,7 +15,7 @@ class PerstistenceManager {
     
     private init() {}
     
-    static func updateRestaurantIfNotPresent (_ restaurant: Restaurant,_ context: NSManagedObjectContext) -> Restaurant?
+    func updateRestaurantIfNotPresent (_ restaurant: Restaurant,_ context: NSManagedObjectContext) -> Restaurant?
     {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.RESTORAN)
         fetchRequest.predicate = NSPredicate(format: "address == %@", restaurant.address)
@@ -47,6 +47,26 @@ class PerstistenceManager {
             return nil
         }
         return nil
+    }
+    
+    func clearDatabase(_ context: NSManagedObjectContext) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.RESTORAN)
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest) as! [NSFetchRequestResult]
+            if results.count > 0 {
+                for result in results as! [NSManagedObject] {
+                    context.delete(result)
+                }
+                do {
+                    try context.save()
+                }catch _ {
+                    print("Error saveing to database")
+                }
+            }
+        }catch let error {
+            print(error.localizedDescription)
+        }
     }
     
 }
