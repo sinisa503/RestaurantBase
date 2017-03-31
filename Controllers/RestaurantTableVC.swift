@@ -16,24 +16,19 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let apiService = RequestService.sharedInstance
     let persistanceManager = PerstistenceManager.sharedInstance
+    var numberOfObjectsInDatabase:Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let context = managedObjectContext {
-            persistanceManager.clearDatabase(context)
-        }
-        
-        apiService.delegate = self
-
-        setUpBarButtons()
         managedObjectContext = appDelegate.persistentContainer.viewContext
-        
+        apiService.delegate = self
         if let context = managedObjectContext {
-            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.RESTORAN)
-            fetchRequest.sortDescriptors = [NSSortDescriptor(key: DataBaseConstants.NAME, ascending: true)]
-            fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            numberOfObjectsInDatabase = persistanceManager.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil, context: context)
+            if numberOfObjectsInDatabase == 0 {
+                fetchData(context: context)
+            }
         }
+        setUpBarButtons()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,47 +36,30 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
         super.viewWillAppear(animated)
     }
     
-    private func setUpBarButtons() {
-        self.navigationItem.leftBarButtonItem = self.editButtonItem
-   /*     let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self,
-                            action: #selector(RestaurantTableVC.insertNewObject(_:)))*/
-        //self.navigationItem.rightBarButtonItem = addButton
-        if let split = self.splitViewController {
-            let controllers = split.viewControllers
-            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MapVC
-        }
-    }
-    
     // MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-         if segue.identifier == "showDetail" {
-         if let indexPath = self.tableView.indexPathForSelectedRow {
-         let object = self.fetchedResultsController?.object(at: indexPath) as? Restoran
-         let restoran = Restaurant(name: (object?.name)!, address: (object?.address)!, longitude: (object?.longitude)!, latitude: (object?.latitude)!)
-         let mapVC = (segue.destination as! UINavigationController).topViewController as! MapVC
-         mapVC.restaurant = restoran
-         mapVC.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
-         mapVC.navigationItem.leftItemsSupplementBackButton = true
-         }
-         }
+        if segue.identifier == "showDetail" {
+            if let indexPath = self.tableView.indexPathForSelectedRow {
+                let object = self.fetchedResultsController?.object(at: indexPath) as? Restoran
+                let restoran = Restaurant(name: (object?.name)!, address: (object?.address)!, longitude: (object?.longitude)!, latitude: (object?.latitude)!)
+                let mapVC = (segue.destination as! UINavigationController).topViewController as! MapVC
+                mapVC.restaurant = restoran
+                mapVC.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
+                mapVC.navigationItem.leftItemsSupplementBackButton = true
+            }
+        }
     }
     
     // MARK: - Table View delegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? CustomTableVCell {
-            var name:String?
-            var address:String?
-            var longitude: Double?
-            var latitude: Double?
+            var name, address:String?
             if let restaurant = fetchedResultsController?.object(at: indexPath) as? Restoran {
                 managedObjectContext?.performAndWait({
                     name = restaurant.name
                     address = restaurant.address
-                    longitude = restaurant.longitude
-                    latitude = restaurant.latitude
                 })
             }
-
             if let name = name, let address = address {
                 cell.nameLabel.text = name
                 cell.addressLabel.text = address
@@ -99,13 +77,33 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     private func insertNewObject(restaurant: Restaurant) {
         //TODO: Implement inserting new object
         print("Insert new object...")
-        persistanceManager.updateRestaurantIfNotPresent(restaurant, managedObjectContext!)
+        _ = persistanceManager.updateRestaurantIfNotPresent(restaurant, managedObjectContext!)
     }
+    
+    //MARK: ApiService delegate - called when download from web is finished
     func apiFinished(restaurantArray: [Restaurant]?) {
         if let restaurants = restaurantArray {
             for restaurant in restaurants {
                 insertNewObject(restaurant: restaurant)
             }
+        }
+    }
+    
+    //MARK: private funcions
+    private func fetchData(context: NSManagedObjectContext) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: DataBaseConstants.NAME, ascending: true)]
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+    }
+    
+    private func setUpBarButtons() {
+        self.navigationItem.leftBarButtonItem = self.editButtonItem
+        /*     let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self,
+         action: #selector(RestaurantTableVC.insertNewObject(_:)))*/
+        //self.navigationItem.rightBarButtonItem = addButton
+        if let split = self.splitViewController {
+            let controllers = split.viewControllers
+            self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MapVC
         }
     }
 }

@@ -17,7 +17,7 @@ struct API {
 }
 
 struct DataBaseConstants {
-    public static let RESTORAN = "Restoran"
+    public static let ENTITY_RESTAURANT = "Restoran"
     public static let NAME = "name"
     public static let ADDRESS = "address"
     public static let LONGITUDE = "longitude"

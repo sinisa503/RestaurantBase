@@ -17,7 +17,7 @@ class PerstistenceManager {
     
     func updateRestaurantIfNotPresent (_ restaurant: Restaurant,_ context: NSManagedObjectContext) -> Restaurant?
     {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.RESTORAN)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.predicate = NSPredicate(format: "address == %@", restaurant.address)
         fetchRequest.returnsObjectsAsFaults = false
         do {
@@ -25,12 +25,12 @@ class PerstistenceManager {
             if results.count > 0 {
                 for result in results as! [NSManagedObject] {
                     if let name = result.value(forKey: DataBaseConstants.NAME) as? String{
-                        print("\(restaurant.name) already exists in database")
+                        print("\(name) already exists in database")
                     }
                 }
                 return restaurant
             } else {
-                let newRestoran = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.RESTORAN, into: context)
+                let newRestoran = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
                 newRestoran.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
                 newRestoran.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
                 newRestoran.setValue(restaurant.longitude, forKey: DataBaseConstants.LONGITUDE)
@@ -50,7 +50,7 @@ class PerstistenceManager {
     }
     
     func clearDatabase(_ context: NSManagedObjectContext) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.RESTORAN)
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.returnsObjectsAsFaults = false
         do {
             let results = try context.fetch(fetchRequest) as! [NSFetchRequestResult]
@@ -69,4 +69,22 @@ class PerstistenceManager {
         }
     }
     
+    func countObjects(entityName: String, predicate: NSPredicate?, context: NSManagedObjectContext) -> Int {
+        var count: Int = 0
+        context.performAndWait {
+            let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+            
+            if let predicate = predicate {
+                fetchRequest.predicate = predicate
+            }
+            
+            fetchRequest.resultType = NSFetchRequestResultType.countResultType
+            do {
+                count = try context.count(for: fetchRequest)
+            } catch {
+                //Assert or handle exception gracefully
+            }
+        }
+        return count
+    }
 }
