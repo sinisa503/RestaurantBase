@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class PerstistenceManager {
     
@@ -86,5 +87,28 @@ class PerstistenceManager {
             }
         }
         return count
+    }
+    
+    func insertRestaurantToDatabase(restaurant: Restaurant, context: NSManagedObjectContext) {
+        let newRestaurant = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
+        newRestaurant.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
+        newRestaurant.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
+        newRestaurant.setValue(restaurant.longitude, forKey: DataBaseConstants.LONGITUDE)
+        newRestaurant.setValue(restaurant.latitude, forKey: DataBaseConstants.LATITUDE)
+        
+        let img:UIImage?
+        if let imageString = restaurant.image {
+            img = UIImage(named: imageString)
+            if let image = img {
+                newRestaurant.setValue(image, forKey: DataBaseConstants.IMAGE)
+            }
+        }
+
+        do {
+            try context.save()
+            print("Saved!")
+        }catch let err{
+            print(err.localizedDescription)
+        }
     }
 }

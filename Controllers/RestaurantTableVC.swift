@@ -11,22 +11,23 @@ import CoreData
 
 class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     
-    var detailViewController: MapVC? = nil
-    var managedObjectContext: NSManagedObjectContext? = nil
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let apiService = RequestService.sharedInstance
-    let persistanceManager = PerstistenceManager.sharedInstance
-    var numberOfObjectsInDatabase:Int?
+    private var detailViewController: MapVC? = nil
+    private var managedObjectContext: NSManagedObjectContext? = nil
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private var apiService:RequestService?
+    private let persistanceManager = PerstistenceManager.sharedInstance
+    private var numberOfObjectsInDatabase:Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         managedObjectContext = appDelegate.persistentContainer.viewContext
-        apiService.delegate = self
         if let context = managedObjectContext {
             numberOfObjectsInDatabase = persistanceManager.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil, context: context)
             if numberOfObjectsInDatabase == 0 {
-                fetchData(context: context)
+                apiService = RequestService.sharedInstance
+                apiService?.delegate = self
             }
+                fetchData(context: context)
         }
         setUpBarButtons()
     }
@@ -53,18 +54,8 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     // MARK: - Table View delegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? CustomTableVCell {
-            var name, address:String?
-            if let restaurant = fetchedResultsController?.object(at: indexPath) as? Restoran {
-                managedObjectContext?.performAndWait({
-                    name = restaurant.name
-                    address = restaurant.address
-                })
-            }
-            if let name = name, let address = address {
-                cell.nameLabel.text = name
-                cell.addressLabel.text = address
-            }
-            return cell
+            let customCell = configure(cell: cell, at: indexPath)
+            return customCell
         }else {
             return UITableViewCell()
         }
@@ -77,7 +68,7 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     private func insertNewObject(restaurant: Restaurant) {
         //TODO: Implement inserting new object
         print("Insert new object...")
-        _ = persistanceManager.updateRestaurantIfNotPresent(restaurant, managedObjectContext!)
+        _ = persistanceManager.updateRestaurantIfNotPresent(restaurant, (fetchedResultsController?.managedObjectContext)!)
     }
     
     //MARK: ApiService delegate - called when download from web is finished
@@ -90,6 +81,22 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     }
     
     //MARK: private funcions
+    
+    private func configure(cell: CustomTableVCell ,at indexPath: IndexPath  ) -> CustomTableVCell{
+        var name, address:String?
+        if let restaurant = fetchedResultsController?.object(at: indexPath) as? Restoran {
+            managedObjectContext?.performAndWait({
+                name = restaurant.name
+                address = restaurant.address
+            })
+        }
+        if let name = name, let address = address {
+            cell.nameLabel.text = name
+            cell.addressLabel.text = address
+        }
+        return cell
+    }
+    
     private func fetchData(context: NSManagedObjectContext) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: DataBaseConstants.NAME, ascending: true)]

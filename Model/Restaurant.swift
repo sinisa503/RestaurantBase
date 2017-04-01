@@ -14,6 +14,7 @@ class Restaurant{
     private var _address: String
     private var _longitude: Double
     private var _latitude: Double
+    private var _image: String?
     
     init(name: String, address: String, longitude: Double, latitude: Double) {
         _name = name
@@ -33,5 +34,12 @@ class Restaurant{
     }
     var latitude:Double {
         return _latitude
+    }
+    var image: String? {
+        if let image = _image {
+            return image
+        }else {
+            return nil
+        }
     }
 }
