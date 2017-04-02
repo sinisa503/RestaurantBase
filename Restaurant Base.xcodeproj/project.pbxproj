@@ -20,6 +20,7 @@
 		020EA7DB1E8BFDA1004B91E2 /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7DA1E8BFDA1004B91E2 /* MapVC.swift */; };
 		020EA7DD1E8BFDC1004B91E2 /* RestaurantTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7DC1E8BFDC1004B91E2 /* RestaurantTableVC.swift */; };
 		020EA7E31E8C5337004B91E2 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */; };
+		021D60221E900B2E00B9F24B /* AddItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021D60211E900B2D00B9F24B /* AddItemVC.swift */; };
 		028AD1B91E8AC9A900F1B4C7 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028AD1B81E8AC9A900F1B4C7 /* Restaurant.swift */; };
 		028AD1BC1E8ACD2500F1B4C7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028AD1BB1E8ACD2500F1B4C7 /* Constants.swift */; };
 		02A5BC981E8ABCB600C95C11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A5BC971E8ABCB600C95C11 /* AppDelegate.swift */; };
@@ -61,6 +62,7 @@
 		020EA7DA1E8BFDA1004B91E2 /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		020EA7DC1E8BFDC1004B91E2 /* RestaurantTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantTableVC.swift; sourceTree = "<group>"; };
 		020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataTableViewController.swift; path = ../CoreData/CoreDataTableViewController.swift; sourceTree = "<group>"; };
+		021D60211E900B2D00B9F24B /* AddItemVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemVC.swift; sourceTree = "<group>"; };
 		028AD1B81E8AC9A900F1B4C7 /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		028AD1BB1E8ACD2500F1B4C7 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		02A5BC941E8ABCB600C95C11 /* Restaurant Base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Restaurant Base.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,6 +233,7 @@
 				020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */,
 				020EA7DC1E8BFDC1004B91E2 /* RestaurantTableVC.swift */,
 				020EA7DA1E8BFDA1004B91E2 /* MapVC.swift */,
+				021D60211E900B2D00B9F24B /* AddItemVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -552,6 +555,7 @@
 				020EA7C11E8BAD03004B91E2 /* RequestService.swift in Sources */,
 				028AD1B91E8AC9A900F1B4C7 /* Restaurant.swift in Sources */,
 				020EA7E31E8C5337004B91E2 /* CoreDataTableViewController.swift in Sources */,
+				021D60221E900B2E00B9F24B /* AddItemVC.swift in Sources */,
 				020EA7C81E8BDE1A004B91E2 /* CustomTableVCell.swift in Sources */,
 				02A5BC981E8ABCB600C95C11 /* AppDelegate.swift in Sources */,
 				02A5BC9B1E8ABCB600C95C11 /* Restaurant_Base.xcdatamodeld in Sources */,

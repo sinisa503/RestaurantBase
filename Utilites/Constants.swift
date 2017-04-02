@@ -24,3 +24,13 @@ struct DataBaseConstants {
     public static let LATITUDE = "latitude"
     public static let IMAGE = "image"
 }
+
+struct SegueiConstants {
+    public static let SHOW_DETAIL = "showDetail"
+    public static let ADD_RESTAURANT = "addRestaurant"
+    public static let ITEM_SAVED = "itemSaved"
+}
+
+struct StoryboardIdentifiers {
+    static let RESTAURANT_TABLE_VC = "restaurantTableVC"
+}

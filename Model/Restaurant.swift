@@ -22,6 +22,14 @@ class Restaurant{
         _longitude = longitude
         _latitude = latitude
     }
+
+    init(name: String, address: String, longitude: Double, latitude: Double, imageName: String) {
+        _name = name
+        _address = address
+        _longitude = longitude
+        _latitude = latitude
+        _image = imageName
+    }
     
     var name: String {
         return _name
@@ -41,5 +49,8 @@ class Restaurant{
         }else {
             return nil
         }
+    }
+    func setImage(name:String) {
+        _image = name
     }
 }

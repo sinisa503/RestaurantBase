@@ -62,5 +62,9 @@
 	<string>Application requires location permission</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Application requires location permission</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow usage so you can have your restaurant&apos;s images</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow usage so you can have your restaurant&apos;s images</string>
 </dict>
 </plist>

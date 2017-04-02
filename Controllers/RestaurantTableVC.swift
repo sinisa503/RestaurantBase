@@ -9,10 +9,10 @@
 import UIKit
 import CoreData
 
-class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
+class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
     
     private var detailViewController: MapVC? = nil
-    private var managedObjectContext: NSManagedObjectContext? = nil
+    var managedObjectContext: NSManagedObjectContext? = nil
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private var apiService:RequestService?
     private let persistanceManager = PerstistenceManager.sharedInstance
@@ -20,16 +20,16 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        managedObjectContext = appDelegate.persistentContainer.viewContext
+        
         if let context = managedObjectContext {
             numberOfObjectsInDatabase = persistanceManager.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil, context: context)
             if numberOfObjectsInDatabase == 0 {
                 apiService = RequestService.sharedInstance
                 apiService?.delegate = self
             }
-                fetchData(context: context)
+                fetchDataFromDatabase(context: context)
         }
-        setUpBarButtons()
+        setUpSplitView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,7 +39,7 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     
     // MARK: - Segues
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showDetail" {
+        if segue.identifier == SegueiConstants.SHOW_DETAIL {
             if let indexPath = self.tableView.indexPathForSelectedRow {
                 let object = self.fetchedResultsController?.object(at: indexPath) as? Restoran
                 let restoran = Restaurant(name: (object?.name)!, address: (object?.address)!, longitude: (object?.longitude)!, latitude: (object?.latitude)!)
@@ -49,7 +49,13 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
                 mapVC.navigationItem.leftItemsSupplementBackButton = true
             }
         }
+        if segue.identifier == SegueiConstants.ADD_RESTAURANT {
+            if let addItemVC = segue.destination as? AddItemVC {
+                addItemVC.managedContext = managedObjectContext
+            }
+        }
     }
+    
     
     // MARK: - Table View delegate
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,17 +71,15 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
         return true
     }
     
-    private func insertNewObject(restaurant: Restaurant) {
-        //TODO: Implement inserting new object
-        print("Insert new object...")
-        _ = persistanceManager.updateRestaurantIfNotPresent(restaurant, (fetchedResultsController?.managedObjectContext)!)
-    }
-    
     //MARK: ApiService delegate - called when download from web is finished
     func apiFinished(restaurantArray: [Restaurant]?) {
         if let restaurants = restaurantArray {
             for restaurant in restaurants {
-                insertNewObject(restaurant: restaurant)
+                if let context = managedObjectContext {
+                    context.perform({ [weak self] in
+                        _ = self?.persistanceManager.updateDatabaseWith(restaurant: restaurant, context: context)
+                    })
+                }
             }
         }
     }
@@ -84,30 +88,33 @@ class RestaurantTableVC: CoreDataTableViewController, ApiDelegate {
     
     private func configure(cell: CustomTableVCell ,at indexPath: IndexPath  ) -> CustomTableVCell{
         var name, address:String?
+        var image: UIImage?
         if let restaurant = fetchedResultsController?.object(at: indexPath) as? Restoran {
             managedObjectContext?.performAndWait({
                 name = restaurant.name
                 address = restaurant.address
+                if let data = restaurant.image {
+                    image = UIImage(data: (data as NSData) as Data)
+                }
             })
         }
         if let name = name, let address = address {
             cell.nameLabel.text = name
             cell.addressLabel.text = address
+            if let image = image {
+                cell.photo.image = image
+            }
         }
         return cell
     }
     
-    private func fetchData(context: NSManagedObjectContext) {
+    private func fetchDataFromDatabase(context: NSManagedObjectContext) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: DataBaseConstants.NAME, ascending: true)]
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     }
     
-    private func setUpBarButtons() {
-        self.navigationItem.leftBarButtonItem = self.editButtonItem
-        /*     let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self,
-         action: #selector(RestaurantTableVC.insertNewObject(_:)))*/
-        //self.navigationItem.rightBarButtonItem = addButton
+    private func setUpSplitView() {
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MapVC

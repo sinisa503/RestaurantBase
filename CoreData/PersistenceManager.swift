@@ -12,11 +12,12 @@ import UIKit
 
 class PerstistenceManager {
     
+    /** Class is made like singleton **/
     static let sharedInstance = PerstistenceManager()
-    
     private init() {}
     
-    func updateRestaurantIfNotPresent (_ restaurant: Restaurant,_ context: NSManagedObjectContext) -> Restaurant?
+    /** Method is checking if added restaurant is already contained in database and is updating database only if it's not **/
+    func addToDatabase(_ restaurant: Restaurant,_ context: NSManagedObjectContext) -> Restaurant?
     {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.predicate = NSPredicate(format: "address == %@", restaurant.address)
@@ -50,6 +51,7 @@ class PerstistenceManager {
         return nil
     }
     
+    /** Clears all database **/
     func clearDatabase(_ context: NSManagedObjectContext) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.returnsObjectsAsFaults = false
@@ -70,6 +72,7 @@ class PerstistenceManager {
         }
     }
     
+    /** Only counts objects in database. Theese objects can not be used **/
     func countObjects(entityName: String, predicate: NSPredicate?, context: NSManagedObjectContext) -> Int {
         var count: Int = 0
         context.performAndWait {
@@ -78,18 +81,18 @@ class PerstistenceManager {
             if let predicate = predicate {
                 fetchRequest.predicate = predicate
             }
-            
             fetchRequest.resultType = NSFetchRequestResultType.countResultType
             do {
                 count = try context.count(for: fetchRequest)
             } catch {
-                //Assert or handle exception gracefully
+                
             }
         }
         return count
     }
     
-    func insertRestaurantToDatabase(restaurant: Restaurant, context: NSManagedObjectContext) {
+    /** Updates database with new restaurant **/
+    func updateDatabaseWith(restaurant: Restaurant, context: NSManagedObjectContext) {
         let newRestaurant = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
         newRestaurant.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
         newRestaurant.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
@@ -100,13 +103,13 @@ class PerstistenceManager {
         if let imageString = restaurant.image {
             img = UIImage(named: imageString)
             if let image = img {
-                newRestaurant.setValue(image, forKey: DataBaseConstants.IMAGE)
+                let data = UIImagePNGRepresentation(image)
+                newRestaurant.setValue(data, forKey: DataBaseConstants.IMAGE)
             }
         }
-
         do {
             try context.save()
-            print("Saved!")
+            print("Restaurnat updated")
         }catch let err{
             print(err.localizedDescription)
         }

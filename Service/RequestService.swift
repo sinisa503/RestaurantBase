@@ -11,14 +11,14 @@ import Alamofire
 import SwiftyJSON
 import CoreData
 
-protocol  ApiDelegate : class {
+protocol  ApiProtocol : class {
     func apiFinished(restaurantArray: [Restaurant]?)
 }
 
 class RequestService {
     
     static let sharedInstance:RequestService = RequestService()
-    weak var delegate: ApiDelegate?
+    weak var delegate: ApiProtocol?
     private init(){
         fetchData(fromSavedUrl: API.BASE_URL)
     }

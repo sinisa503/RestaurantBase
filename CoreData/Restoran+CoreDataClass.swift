@@ -11,5 +11,7 @@ import Foundation
 import CoreData
 
 public class Restoran: NSManagedObject {
-    
+    static func putIt(){
+        
+    }
 }
