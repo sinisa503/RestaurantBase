@@ -116,8 +116,16 @@
                                                 </label>
                                             </subviews>
                                         </stackView>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V05-U0-enB">
+                                            <rect key="frame" x="0.0" y="135" width="375" height="9"/>
+                                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="9" id="cg4-5M-PKZ"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="V05-U0-enB" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leading" id="37h-AE-EdT"/>
                                         <constraint firstItem="g0g-27-MaQ" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="top" id="5QR-jo-J8B"/>
                                         <constraint firstAttribute="bottom" secondItem="g0g-27-MaQ" secondAttribute="bottom" id="H0K-Fq-X8N"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="HWe-pU-SpZ" secondAttribute="bottom" constant="8" id="LmK-OI-H6R"/>
@@ -125,6 +133,8 @@
                                         <constraint firstItem="g0g-27-MaQ" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leading" constant="8" id="cn4-5P-bOg"/>
                                         <constraint firstItem="HWe-pU-SpZ" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" constant="8" id="g2i-5B-H2L"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="HWe-pU-SpZ" secondAttribute="trailing" constant="8" id="nHk-G8-7Ov"/>
+                                        <constraint firstAttribute="trailing" secondItem="V05-U0-enB" secondAttribute="trailing" id="pdh-xm-wu8"/>
+                                        <constraint firstAttribute="bottom" secondItem="V05-U0-enB" secondAttribute="bottom" constant="-1" id="wIU-Du-fti"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -143,7 +153,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Restaurants" id="Zdf-7t-Un8">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="7Lg-Bi-AbW">
+                        <barButtonItem key="rightBarButtonItem" title="Add" id="7Lg-Bi-AbW">
                             <connections>
                                 <segue destination="exk-w1-Net" kind="show" identifier="addRestaurant" id="SXG-fm-tD9"/>
                             </connections>
@@ -167,7 +177,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add new Restaurant" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYc-nr-pVx">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="84"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="84"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="84" id="3Au-RB-Nxo"/>
@@ -177,7 +187,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dJK-oX-GxW">
-                                <rect key="frame" x="16" y="108" width="343" height="80"/>
+                                <rect key="frame" x="16" y="152" width="343" height="80"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter restaurant's name" textAlignment="center" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="e7a-co-VZv">
                                         <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
@@ -200,19 +210,19 @@
                                 </subviews>
                             </stackView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePick" translatesAutoresizingMaskIntoConstraints="NO" id="sW3-wQ-Hq6">
-                                <rect key="frame" x="40" y="212" width="295" height="200"/>
+                                <rect key="frame" x="40" y="256" width="295" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="5bN-Xk-Jjj"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mb2-Xz-5qE" userLabel="ImgButton">
-                                <rect key="frame" x="40" y="212" width="295" height="200"/>
+                                <rect key="frame" x="40" y="256" width="295" height="200"/>
                                 <connections>
                                     <action selector="addImage:" destination="exk-w1-Net" eventType="touchUpInside" id="dEG-UO-1uK"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t7g-Og-gEZ">
-                                <rect key="frame" x="16" y="420" width="343" height="20.5"/>
+                                <rect key="frame" x="16" y="464" width="343" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -228,7 +238,6 @@
                                 </state>
                                 <connections>
                                     <action selector="save:" destination="exk-w1-Net" eventType="touchUpInside" id="W9S-LL-pfq"/>
-                                    <segue destination="7bK-jq-Zjz" kind="show" identifier="itemSaved" id="OdM-6i-coM"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -291,7 +300,6 @@
         <image name="imagePick" width="150" height="150"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="OdM-6i-coM"/>
         <segue reference="6S0-TO-JiA"/>
     </inferredMetricsTieBreakers>
 </document>

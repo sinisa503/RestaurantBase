@@ -15,6 +15,7 @@ class PerstistenceManager {
     /** Class is made like singleton **/
     static let sharedInstance = PerstistenceManager()
     private init() {}
+    private let appDelegate = UIApplication.shared.delegate as? AppDelegate
     
     /** Method is checking if added restaurant is already contained in database and is updating database only if it's not **/
     func addToDatabase(_ restaurant: Restaurant,_ context: NSManagedObjectContext) -> Restaurant?
@@ -113,5 +114,25 @@ class PerstistenceManager {
         }catch let err{
             print(err.localizedDescription)
         }
+    }
+    
+    /** Method is checking if added restaurant is already contained in database and is updating database only if it's not **/
+    func allRestaurantsFromDatabase() -> [Restoran]?{
+        let context = appDelegate?.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context?.fetch(fetchRequest) as! [NSFetchRequestResult]
+            if results.count > 0 {
+                var array: [NSManagedObject] = []
+                for result in results as! [NSManagedObject] {
+                    array.append(result)
+                }
+                return array as? [Restoran]
+            }
+        }catch {
+            return nil
+        }
+        return nil
     }
 }

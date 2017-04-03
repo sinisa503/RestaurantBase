@@ -11,43 +11,95 @@ import CoreLocation
 import MapKit
 
 class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
-
+    
     @IBOutlet weak var map: MKMapView!
     
     private var locationManager = CLLocationManager()
+    private let persistance = PerstistenceManager.sharedInstance
+    private var existingRestaurants: [Restoran]? = nil
     var restaurant: Restaurant?
+    private var imageForPin: UIImage?
     
-    override func viewWillAppear(_ animated: Bool) {
-        configureView()
-    }
-    
-    func configureView() {
-        if let restaurant = restaurant {
-            let location = CLLocationCoordinate2D(latitude: restaurant.latitude, longitude: restaurant.longitude)
-            addAnotationTo(location: location)
-            zoomMapTo(location: location)
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        map.delegate = self
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-        self.configureView()
     }
     
-    private func addAnotationTo(location: CLLocationCoordinate2D) {
+    override func viewDidAppear(_ animated: Bool) {
+        locationAuthStatus()
+    }
+    
+    /** After selecting restaurant go to it's location on map **/
+    func configureView() {
+        existingRestaurants = persistance.allRestaurantsFromDatabase()
+        if let restaurant = restaurant {
+            let location = CLLocationCoordinate2D(latitude: restaurant.latitude, longitude: restaurant.longitude)
+            zoomMapTo(location: location)
+        }
+        if let restaurantArray = existingRestaurants {
+            for restaurant in restaurantArray {
+                addAnotationTo(restoran: restaurant)
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            map.showsUserLocation = true
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+            configureView()
+        }
+    }
+    
+    func locationAuthStatus() {
+        if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
+            map.showsUserLocation = true
+            self.configureView()
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation
+        {
+            return nil
+        }
+        var annotationView = map.dequeueReusableAnnotationView(withIdentifier: "Pin")
+        if annotationView == nil{
+            annotationView = CustomAnnotationView(annotation: annotation, reuseIdentifier: "Pin")
+            annotationView?.canShowCallout = true
+        }else{
+            annotationView?.annotation = annotation
+        }
+        
+        if let pinImage = imageForPin {
+            let size = CGSize(width: 50, height: 50)
+            UIGraphicsBeginImageContext(size)
+            pinImage.draw(in: CGRect(x: 0, y: 0, width: 25, height: 25))
+            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            annotationView?.image = resizedImage
+        }
+        
+        return annotationView
+    }
+    
+    private func addAnotationTo(restoran: Restoran) {
         let annotation = MKPointAnnotation()
-        annotation.coordinate = location
-        annotation.title = restaurant?.name
-        annotation.subtitle = restaurant?.address
+        let coordinate = CLLocationCoordinate2D(latitude: restoran.latitude, longitude: restoran.longitude)
+        annotation.coordinate = coordinate
+        annotation.title = restoran.name
+        annotation.subtitle = restoran.address
+        imageForPin = UIImage(named: "hat")
         map.addAnnotation(annotation)
     }
     
     private func zoomMapTo(location: CLLocationCoordinate2D){
-        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+        let span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.03)
         let region = MKCoordinateRegionMake(location, span)
         map.setRegion(region, animated: true)
     }
