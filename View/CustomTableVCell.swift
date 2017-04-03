@@ -17,26 +17,18 @@ class CustomTableVCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-        
     }
-    
-    override func layoutSubviews() {
-        photo.round()
-    }
-    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        // Configure the view for the selected state
     }
 }
 
-/** Doesn't work wright **/
+//TODO: Doesn't work wright - fix it for rounded image in table view
 public extension UIImageView {
     public func round() {
         let mask = CAShapeLayer()
         mask.path = UIBezierPath(ovalIn: CGRect(x:bounds.minX , y: bounds.minY, width: bounds.size.width, height: bounds.size.height)).cgPath
+        self.layer.mask?.borderColor = UIColor.blue.cgColor
         self.layer.mask = mask
     }
 }
