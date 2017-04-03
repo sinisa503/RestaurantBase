@@ -79,7 +79,7 @@ class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         if let pinImage = imageForPin {
             let size = CGSize(width: 50, height: 50)
             UIGraphicsBeginImageContext(size)
-            pinImage.draw(in: CGRect(x: 0, y: 0, width: 25, height: 25))
+            pinImage.draw(in: CGRect(x: 0, y: 0, width: 25, height: 30))
             let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
             annotationView?.image = resizedImage
@@ -94,7 +94,7 @@ class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         annotation.coordinate = coordinate
         annotation.title = restoran.name
         annotation.subtitle = restoran.address
-        imageForPin = UIImage(named: "hat")
+        imageForPin = UIImage(named: "restAnnot")
         map.addAnnotation(annotation)
     }
     

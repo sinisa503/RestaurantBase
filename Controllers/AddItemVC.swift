@@ -40,11 +40,13 @@ class AddItemVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     @IBAction func addImage(_ sender: UIButton) {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.sourceType = .camera
-        picker.allowsEditing = true
-        present(picker, animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            let picker = UIImagePickerController()
+            picker.delegate = self
+            picker.sourceType = .camera
+            picker.allowsEditing = true
+            present(picker, animated: true, completion: nil)
+        }
     }
     
     //MARK: Image picker controller delegate
