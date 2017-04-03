@@ -12,7 +12,7 @@ import UIKit
 
 class PerstistenceManager {
     
-    /** Class is made like singleton **/
+    /** Class is made singleton **/
     static let sharedInstance = PerstistenceManager()
     private let appDelegate = UIApplication.shared.delegate as? AppDelegate
     let context: NSManagedObjectContext?
@@ -99,29 +99,6 @@ class PerstistenceManager {
         return count
     }
     
-    /** Updates database with new restaurant **/
-    func updateDatabaseWith(restaurant: Restaurant, andImage image:Data?) {
-        guard let context = context else {return}
-        let newRestaurant = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
-        newRestaurant.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
-        newRestaurant.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
-        newRestaurant.setValue(restaurant.longitude, forKey: DataBaseConstants.LONGITUDE)
-        newRestaurant.setValue(restaurant.latitude, forKey: DataBaseConstants.LATITUDE)
-        
-        if let data = image {
-            if let img = UIImage(data: data) {
-                let data = UIImagePNGRepresentation(img)
-                newRestaurant.setValue(data, forKey: DataBaseConstants.IMAGE)
-            }
-        }
-        do {
-            try context.save()
-            print("Restaurnat updated")
-        }catch let err{
-            print(err.localizedDescription)
-        }
-    }
-    
     /** Method is checking if added restaurant is already contained in database and is updating database only if it's not **/
     func allRestaurantsFromDatabase() -> [Restoran]?{
         guard let context = context else {return nil}
@@ -140,5 +117,43 @@ class PerstistenceManager {
             return nil
         }
         return nil
+    }
+    
+    /** Updates database with new restaurant **/
+    func updateDatabaseWith(restaurant: Restaurant, andImage image:Data?) {
+        guard let context = context else {return}
+        let newRestaurant = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
+        newRestaurant.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
+        newRestaurant.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
+        newRestaurant.setValue(restaurant.longitude, forKey: DataBaseConstants.LONGITUDE)
+        newRestaurant.setValue(restaurant.latitude, forKey: DataBaseConstants.LATITUDE)
+        
+        if let data = image {
+            add(image: data, for: restaurant)
+        }
+        do {
+            try context.save()
+            print("Restaurnat updated")
+        }catch let err{
+            print(err.localizedDescription)
+        }
+    }
+    
+    /** Updates database with new image **/
+    func add(image: Data?, for restaurant: Restaurant) {
+        guard let context = context else {return}
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
+        fetchRequest.predicate = NSPredicate(format: "address == %@", restaurant.address)
+        fetchRequest.returnsObjectsAsFaults = false
+        do {
+            let results = try context.fetch(fetchRequest) as! [NSFetchRequestResult]
+            if results.count > 0 {
+                if let rest = results.first as? Restoran {
+                    rest.image = image as NSData?
+                }
+            }
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }

@@ -26,8 +26,11 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
     private var restaurant: Restaurant? {
         didSet {
             if let restaurant = restaurant {
-                persistance.updateDatabaseWith(restaurant: restaurant, andImage: pickedImage as Data?)
-                //updateDatabase(newRestoran: restaurant, with: pickedImage)
+                if let image = pickedImage {
+                    persistance.updateDatabaseWith(restaurant: restaurant, andImage: image as Data?)
+                }else {
+                    persistance.updateDatabaseWith(restaurant: restaurant, andImage: nil)
+                }
                 navigationController?.popToRootViewController(animated: true)
             }
         }
@@ -49,6 +52,7 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
     
     @IBAction func save(_ sender: UIButton) {
         createRestaurant()
+        pickedImage = nil
     }
     
     private func invalidAlert(title: String, messagge: String) {
