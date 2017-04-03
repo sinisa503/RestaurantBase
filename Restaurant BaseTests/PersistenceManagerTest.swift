@@ -10,20 +10,43 @@ import XCTest
 import CoreData
 
 class PersistenceManagerTest: XCTestCase {
+//TODO: Context in persisenceManager does not get initialized from tests???    
+    var persistent: PerstistenceManager?
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        persistent = PerstistenceManager.sharedInstance
+        persistent?.clearDatabase()
+    }
+    
+    func databaseCleared() {
+        persistent?.clearDatabase()
+        XCTAssertEqual(persistent?.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil), 0)
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        persistent?.clearDatabase()
+        persistent = nil
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testClearingDatabase() {
+        persistent?.clearDatabase()
+        XCTAssertEqual(persistent?.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil), 0)
+    }
+    
+    func testSaveingRestaurant() {
+        let name = "Dinner's Delight"
+        let address = "Kalalarga 2"
+        let longitude = 16.654
+        let latitude = 42.234
+        
+        let testModel = Restaurant(name: name, address: address, longitude: longitude, latitude: latitude)
+        persistent = PerstistenceManager.sharedInstance
+        persistent?.clearDatabase()
+        persistent?.updateDatabaseWith(restaurant: testModel, andImage: nil)
+        
+        XCTAssertEqual(persistent?.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil), 1)
     }
     
     func testPerformanceExample() {

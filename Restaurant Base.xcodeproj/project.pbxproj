@@ -21,6 +21,19 @@
 		020EA7DD1E8BFDC1004B91E2 /* RestaurantTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7DC1E8BFDC1004B91E2 /* RestaurantTableVC.swift */; };
 		020EA7E31E8C5337004B91E2 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */; };
 		021D60221E900B2E00B9F24B /* AddItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021D60211E900B2D00B9F24B /* AddItemVC.swift */; };
+		021DB86B1E92E8C60098664D /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7D61E8BF3C9004B91E2 /* PersistenceManager.swift */; };
+		021DB86C1E92ED090098664D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028AD1BB1E8ACD2500F1B4C7 /* Constants.swift */; };
+		021DB86E1E92EED20098664D /* ImagePickerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 029BC2781E92882A00D061BA /* ImagePickerVC.swift */; };
+		021DB86F1E92EED20098664D /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */; };
+		021DB8701E92EED70098664D /* RestaurantTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7DC1E8BFDC1004B91E2 /* RestaurantTableVC.swift */; };
+		021DB8711E92EED70098664D /* AddItemVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021D60211E900B2D00B9F24B /* AddItemVC.swift */; };
+		021DB8721E92EED70098664D /* MapVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7DA1E8BFDA1004B91E2 /* MapVC.swift */; };
+		021DB8731E92EEDB0098664D /* RequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7C01E8BAD03004B91E2 /* RequestService.swift */; };
+		021DB8741E92EEE40098664D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02A5BCA31E8ABCB600C95C11 /* Assets.xcassets */; };
+		021DB8751E92EEE80098664D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02A5BC971E8ABCB600C95C11 /* AppDelegate.swift */; };
+		021DB8761E92EEEF0098664D /* RestaurantAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023C347E1E91A99F00951E16 /* RestaurantAnnotation.swift */; };
+		021DB8771E92EEF60098664D /* CustomTableVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7C71E8BDE1A004B91E2 /* CustomTableVCell.swift */; };
+		021DB8781E92EEF60098664D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024224981E92380D002AA4EF /* CustomAnnotation.swift */; };
 		023C347F1E91A99F00951E16 /* RestaurantAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023C347E1E91A99F00951E16 /* RestaurantAnnotation.swift */; };
 		024224991E92380D002AA4EF /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024224981E92380D002AA4EF /* CustomAnnotation.swift */; };
 		028AD1B91E8AC9A900F1B4C7 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028AD1B81E8AC9A900F1B4C7 /* Restaurant.swift */; };
@@ -408,6 +421,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				021DB8741E92EEE40098664D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,11 +600,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				021DB86E1E92EED20098664D /* ImagePickerVC.swift in Sources */,
+				021DB8781E92EEF60098664D /* CustomAnnotation.swift in Sources */,
+				021DB8721E92EED70098664D /* MapVC.swift in Sources */,
 				020EA7D51E8BF399004B91E2 /* Restoran+CoreDataProperties.swift in Sources */,
+				021DB8701E92EED70098664D /* RestaurantTableVC.swift in Sources */,
+				021DB8751E92EEE80098664D /* AppDelegate.swift in Sources */,
 				020EA7D91E8BF3FA004B91E2 /* PersistenceManagerTest.swift in Sources */,
 				020EA7CA1E8BE564004B91E2 /* RestaurantModelTest.swift in Sources */,
+				021DB8711E92EED70098664D /* AddItemVC.swift in Sources */,
+				021DB86B1E92E8C60098664D /* PersistenceManager.swift in Sources */,
+				021DB86C1E92ED090098664D /* Constants.swift in Sources */,
+				021DB8771E92EEF60098664D /* CustomTableVCell.swift in Sources */,
+				021DB8761E92EEEF0098664D /* RestaurantAnnotation.swift in Sources */,
 				020EA7D41E8BF394004B91E2 /* Restoran+CoreDataClass.swift in Sources */,
+				021DB8731E92EEDB0098664D /* RequestService.swift in Sources */,
 				020EA7CB1E8BE713004B91E2 /* Restaurant.swift in Sources */,
+				021DB86F1E92EED20098664D /* CoreDataTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

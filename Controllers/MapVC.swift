@@ -62,7 +62,7 @@ class MapVC: ImagePickerVC, MKMapViewDelegate, CLLocationManagerDelegate {
     
     func locationAuthStatus() {
         if CLLocationManager.authorizationStatus() == .authorizedWhenInUse {
-            map.showsUserLocation = true
+            map.showsUserLocation = false
             self.configureView()
         } else {
             locationManager.requestWhenInUseAuthorization()

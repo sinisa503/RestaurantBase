@@ -14,47 +14,12 @@ class PerstistenceManager {
     
     /** Class is made singleton **/
     static let sharedInstance = PerstistenceManager()
-    private let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    let context: NSManagedObjectContext?
+    private var appDelegate: AppDelegate?
+    var context: NSManagedObjectContext?
     
     private init() {
+        appDelegate = UIApplication.shared.delegate as? AppDelegate
         context = appDelegate?.persistentContainer.viewContext
-    }
-    
-    /** Method is checking if added restaurant is already contained in database and is updating database only if it's not **/
-    func addToDatabase(_ restaurant: Restaurant) -> Restaurant?
-    {
-        guard let context = context else {return nil}
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
-        fetchRequest.predicate = NSPredicate(format: "address == %@", restaurant.address)
-        fetchRequest.returnsObjectsAsFaults = false
-        do {
-            let results = try context.fetch(fetchRequest) as! [NSFetchRequestResult]
-            if results.count > 0 {
-                for result in results as! [NSManagedObject] {
-                    if let name = result.value(forKey: DataBaseConstants.NAME) as? String{
-                        print("\(name) already exists in database")
-                    }
-                }
-                return restaurant
-            } else {
-                let newRestoran = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
-                newRestoran.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
-                newRestoran.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
-                newRestoran.setValue(restaurant.longitude, forKey: DataBaseConstants.LONGITUDE)
-                newRestoran.setValue(restaurant.latitude, forKey: DataBaseConstants.LATITUDE)
-                do {
-                    try context.save()
-                    print("\(restaurant.name) saved into database")
-                }catch let err{
-                    print(err.localizedDescription)
-                }
-            }
-        } catch let error {
-            print(error.localizedDescription)
-            return nil
-        }
-        return nil
     }
     
     /** Clears all database **/
@@ -121,21 +86,21 @@ class PerstistenceManager {
     
     /** Updates database with new restaurant **/
     func updateDatabaseWith(restaurant: Restaurant, andImage image:Data?) {
-        guard let context = context else {return}
-        let newRestaurant = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
-        newRestaurant.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
-        newRestaurant.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
-        newRestaurant.setValue(restaurant.longitude, forKey: DataBaseConstants.LONGITUDE)
-        newRestaurant.setValue(restaurant.latitude, forKey: DataBaseConstants.LATITUDE)
-        
-        if let data = image {
-            add(image: data, for: restaurant)
-        }
-        do {
-            try context.save()
-            print("Restaurnat updated")
-        }catch let err{
-            print(err.localizedDescription)
+        if let context = context {
+            let newRestaurant = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
+            newRestaurant.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
+            newRestaurant.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
+            newRestaurant.setValue(restaurant.longitude, forKey: DataBaseConstants.LONGITUDE)
+            newRestaurant.setValue(restaurant.latitude, forKey: DataBaseConstants.LATITUDE)
+            
+            if let data = image {
+                add(image: data, for: restaurant)
+            }
+            do {
+                try context.save()
+            }catch let err{
+                print(err.localizedDescription)
+            }
         }
     }
     
