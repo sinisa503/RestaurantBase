@@ -12,8 +12,6 @@ import CoreData
 class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
     
     private var detailViewController: MapVC? = nil
-    var managedObjectContext: NSManagedObjectContext? = nil
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private var apiService:RequestService?
     private let persistanceManager = PerstistenceManager.sharedInstance
     private var numberOfObjectsInDatabase:Int?
@@ -21,13 +19,13 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let context = managedObjectContext {
-            numberOfObjectsInDatabase = persistanceManager.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil, context: context)
+        if persistanceManager.context != nil {
+            numberOfObjectsInDatabase = persistanceManager.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil)
             if numberOfObjectsInDatabase == 0 {
                 apiService = RequestService.sharedInstance
                 apiService?.delegate = self
             }
-                fetchDataFromDatabase(context: context)
+                fetchDataFromDatabase()
         }
         setUpSplitView()
     }
@@ -47,11 +45,6 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
                 mapVC.restaurant = restoran
                 mapVC.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem
                 mapVC.navigationItem.leftItemsSupplementBackButton = true
-            }
-        }
-        if segue.identifier == SegueiConstants.ADD_RESTAURANT {
-            if let addItemVC = segue.destination as? AddItemVC {
-                addItemVC.managedContext = managedObjectContext
             }
         }
     }
@@ -75,9 +68,9 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
     func apiFinished(restaurantArray: [Restaurant]?) {
         if let restaurants = restaurantArray {
             for restaurant in restaurants {
-                if let context = managedObjectContext {
+                if let context = persistanceManager.context {
                     context.perform({ [weak self] in
-                        _ = self?.persistanceManager.updateDatabaseWith(restaurant: restaurant, context: context)
+                        _ = self?.persistanceManager.updateDatabaseWith(restaurant: restaurant, andImage: nil)
                     })
                 }
             }
@@ -90,7 +83,7 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
         var name, address:String?
         var image: UIImage?
         if let restaurant = fetchedResultsController?.object(at: indexPath) as? Restoran {
-            managedObjectContext?.performAndWait({
+            persistanceManager.context?.performAndWait({
                 name = restaurant.name
                 address = restaurant.address
                 if let data = restaurant.image {
@@ -118,6 +111,15 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
         if let split = self.splitViewController {
             let controllers = split.viewControllers
             self.detailViewController = (controllers[controllers.count-1] as! UINavigationController).topViewController as? MapVC
+        }
+    }
+    
+    //NSFetchRequestController sync table with database
+    func fetchDataFromDatabase() {
+        if let context = persistanceManager.context {
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
+            fetchRequest.sortDescriptors = [NSSortDescriptor(key: DataBaseConstants.NAME, ascending: true)]
+            fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
         }
     }
 }

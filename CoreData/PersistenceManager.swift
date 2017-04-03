@@ -14,12 +14,17 @@ class PerstistenceManager {
     
     /** Class is made like singleton **/
     static let sharedInstance = PerstistenceManager()
-    private init() {}
     private let appDelegate = UIApplication.shared.delegate as? AppDelegate
+    let context: NSManagedObjectContext?
+    
+    private init() {
+        context = appDelegate?.persistentContainer.viewContext
+    }
     
     /** Method is checking if added restaurant is already contained in database and is updating database only if it's not **/
-    func addToDatabase(_ restaurant: Restaurant,_ context: NSManagedObjectContext) -> Restaurant?
+    func addToDatabase(_ restaurant: Restaurant) -> Restaurant?
     {
+        guard let context = context else {return nil}
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.predicate = NSPredicate(format: "address == %@", restaurant.address)
         fetchRequest.returnsObjectsAsFaults = false
@@ -53,7 +58,8 @@ class PerstistenceManager {
     }
     
     /** Clears all database **/
-    func clearDatabase(_ context: NSManagedObjectContext) {
+    func clearDatabase() {
+        guard let context = context else {return}
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.returnsObjectsAsFaults = false
         do {
@@ -74,7 +80,8 @@ class PerstistenceManager {
     }
     
     /** Only counts objects in database. Theese objects can not be used **/
-    func countObjects(entityName: String, predicate: NSPredicate?, context: NSManagedObjectContext) -> Int {
+    func countObjects(entityName: String, predicate: NSPredicate?) -> Int {
+        guard let context = context else {return 0}
         var count: Int = 0
         context.performAndWait {
             let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
@@ -93,18 +100,17 @@ class PerstistenceManager {
     }
     
     /** Updates database with new restaurant **/
-    func updateDatabaseWith(restaurant: Restaurant, context: NSManagedObjectContext) {
+    func updateDatabaseWith(restaurant: Restaurant, andImage image:Data?) {
+        guard let context = context else {return}
         let newRestaurant = NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: context)
         newRestaurant.setValue(restaurant.name, forKey: DataBaseConstants.NAME)
         newRestaurant.setValue(restaurant.address, forKey: DataBaseConstants.ADDRESS)
         newRestaurant.setValue(restaurant.longitude, forKey: DataBaseConstants.LONGITUDE)
         newRestaurant.setValue(restaurant.latitude, forKey: DataBaseConstants.LATITUDE)
         
-        let img:UIImage?
-        if let imageString = restaurant.image {
-            img = UIImage(named: imageString)
-            if let image = img {
-                let data = UIImagePNGRepresentation(image)
+        if let data = image {
+            if let img = UIImage(data: data) {
+                let data = UIImagePNGRepresentation(img)
                 newRestaurant.setValue(data, forKey: DataBaseConstants.IMAGE)
             }
         }
@@ -118,11 +124,11 @@ class PerstistenceManager {
     
     /** Method is checking if added restaurant is already contained in database and is updating database only if it's not **/
     func allRestaurantsFromDatabase() -> [Restoran]?{
-        let context = appDelegate?.persistentContainer.viewContext
+        guard let context = context else {return nil}
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
         fetchRequest.returnsObjectsAsFaults = false
         do {
-            let results = try context?.fetch(fetchRequest) as! [NSFetchRequestResult]
+            let results = try context.fetch(fetchRequest) as! [NSFetchRequestResult]
             if results.count > 0 {
                 var array: [NSManagedObject] = []
                 for result in results as! [NSManagedObject] {

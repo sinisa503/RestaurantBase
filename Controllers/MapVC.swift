@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 
-class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MapVC: ImagePickerVC, MKMapViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var map: MKMapView!
     
@@ -72,6 +72,12 @@ class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         if annotationView == nil{
             annotationView = CustomAnnotationView(annotation: annotation, reuseIdentifier: "Pin")
             annotationView?.canShowCallout = true
+            
+            
+            let button = UIButton(type: .detailDisclosure)
+            button.addTarget(self, action: #selector(claaIt), for: .touchUpInside)
+            annotationView?.rightCalloutAccessoryView = button
+            
         }else{
             annotationView?.annotation = annotation
         }
@@ -86,6 +92,10 @@ class MapVC: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
         }
         
         return annotationView
+    }
+    
+    @objc private func claaIt() {
+
     }
     
     private func addAnotationTo(restoran: Restoran) {

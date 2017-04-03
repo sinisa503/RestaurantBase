@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import CoreData
 
-class AddItemVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, CLLocationManagerDelegate {
+class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var nameLabel: UITextField!
     @IBOutlet weak var addressLabel: UITextField!
@@ -18,6 +18,7 @@ class AddItemVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var pickLabel: UILabel!
     
     var managedContext: NSManagedObjectContext?
+    private let persistance = PerstistenceManager.sharedInstance
     private var locationManager = CLLocationManager()
     private var location: CLLocationCoordinate2D? = nil
     private var selectedImagePath: String?
@@ -25,7 +26,8 @@ class AddItemVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     private var restaurant: Restaurant? {
         didSet {
             if let restaurant = restaurant {
-                updateDatabase(newRestoran: restaurant, with: pickedImage)
+                persistance.updateDatabaseWith(restaurant: restaurant, andImage: pickedImage as Data?)
+                //updateDatabase(newRestoran: restaurant, with: pickedImage)
                 navigationController?.popToRootViewController(animated: true)
             }
         }
@@ -40,24 +42,9 @@ class AddItemVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     @IBAction func addImage(_ sender: UIButton) {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            let picker = UIImagePickerController()
-            picker.delegate = self
-            picker.sourceType = .camera
-            picker.allowsEditing = true
-            present(picker, animated: true, completion: nil)
+        if let camera = camera {
+            present(camera, animated: true, completion: nil)
         }
-    }
-    
-    //MARK: Image picker controller delegate
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
-            imageView.image = image
-            pickedImage = UIImagePNGRepresentation(image) as NSData?
-            pickLabel.text = ""
-        }
-        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func save(_ sender: UIButton) {
@@ -103,6 +90,16 @@ class AddItemVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         }
     }
     
+    //MARK: Image picker controller delegate
+    
+    override func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
+            imageView.image = image
+            pickedImage = UIImagePNGRepresentation(image) as NSData?
+            pickLabel.text = ""
+        }
+        dismiss(animated: true, completion: nil)
+    }
     
     //MARK: TextField delegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
