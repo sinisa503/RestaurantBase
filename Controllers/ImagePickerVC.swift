@@ -14,7 +14,7 @@ class ImagePickerVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationController?.navigationBar.backgroundColor = UIColor.clear
         // Do any additional setup after loading the view.
     }
     

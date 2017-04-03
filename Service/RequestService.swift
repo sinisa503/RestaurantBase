@@ -20,7 +20,6 @@ class RequestService {
     static let sharedInstance:RequestService = RequestService()
     weak var delegate: ApiProtocol?
     private init(){
-        fetchData(fromSavedUrl: API.BASE_URL)
     }
     
     private var restaurants: [Restaurant]? {

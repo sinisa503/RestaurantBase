@@ -15,17 +15,12 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
     private var apiService:RequestService?
     private let persistanceManager = PerstistenceManager.sharedInstance
     private var numberOfObjectsInDatabase:Int?
-    
+    private var downloaded = UserDefaults.standard.bool(forKey: UserDefaultsConstants.DATA_FROM_URL_LOADED)
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if persistanceManager.context != nil {
             numberOfObjectsInDatabase = persistanceManager.countObjects(entityName: DataBaseConstants.ENTITY_RESTAURANT, predicate: nil)
-            if numberOfObjectsInDatabase == 0 {
-                apiService = RequestService.sharedInstance
-                apiService?.delegate = self
-            }
-                fetchDataFromDatabase()
         }
         setUpSplitView()
     }
@@ -33,6 +28,16 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
     override func viewWillAppear(_ animated: Bool) {
         self.clearsSelectionOnViewWillAppear = self.splitViewController!.isCollapsed
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        if !downloaded {
+            apiService = RequestService.sharedInstance
+            apiService?.delegate = self
+            apiService?.fetchData(fromSavedUrl: API.BASE_URL)
+        }
+        fetchDataFromDatabase()
+        super.tableView.reloadData()
     }
     
     // MARK: - Segues
@@ -67,6 +72,8 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
                 if let context = persistanceManager.context {
                     context.perform({ [weak self] in
                         _ = self?.persistanceManager.updateDatabaseWith(restaurant: restaurant, andImage: nil)
+                        self?.downloaded = true
+                        UserDefaults.standard.set(self?.downloaded, forKey: UserDefaultsConstants.DATA_FROM_URL_LOADED)
                     })
                 }
             }

@@ -34,3 +34,7 @@ struct SegueiConstants {
 struct StoryboardIdentifiers {
     static let RESTAURANT_TABLE_VC = "restaurantTableVC"
 }
+
+struct UserDefaultsConstants {
+    static let DATA_FROM_URL_LOADED = "isDataFromUrlLoaded"
+}
