@@ -9,22 +9,18 @@
 import UIKit
 
 class ImagePickerVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    
+  
     var camera: UIImagePickerController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
     }
-
-    override func viewDidAppear(_ animated: Bool) {
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            camera = UIImagePickerController()
-            camera?.delegate = self
-            camera?.sourceType = .camera
-            camera?.allowsEditing = true
+    
+    func startCamera () {
+        if let camera = camera {
+            present(camera, animated: true, completion: nil)
         }
     }
     
@@ -32,7 +28,13 @@ class ImagePickerVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
-                
+            if let pickedImage = UIImagePNGRepresentation(image) as Data? {
+                imagePicked(data: pickedImage)
+            }
         }
+    }
+    
+    //function to overide in subclass
+    func imagePicked(data: Data) {
     }
 }

@@ -28,6 +28,12 @@ class MapVC: ImagePickerVC, MKMapViewDelegate, CLLocationManagerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            camera = UIImagePickerController()
+            camera?.delegate = self
+            camera?.sourceType = .camera
+            camera?.allowsEditing = true
+        }
         locationAuthStatus()
     }
     
@@ -75,7 +81,8 @@ class MapVC: ImagePickerVC, MKMapViewDelegate, CLLocationManagerDelegate {
             
             
             let button = UIButton(type: .detailDisclosure)
-            button.addTarget(self, action: #selector(claaIt), for: .touchUpInside)
+            button.setImage(UIImage(named: "camera"), for: .normal)
+            button.addTarget(self, action: #selector(addImage(_:)), for: .touchUpInside)
             annotationView?.rightCalloutAccessoryView = button
             
         }else{
@@ -94,8 +101,15 @@ class MapVC: ImagePickerVC, MKMapViewDelegate, CLLocationManagerDelegate {
         return annotationView
     }
     
-    @objc private func claaIt() {
-
+    @objc func addImage(_ sender: UIButton) {
+        super.startCamera()
+    }
+    
+    override func imagePicked(data: Data) {
+        if let restaurant = restaurant {
+            persistance.add(image: data, for: restaurant)
+        }
+        dismiss(animated: true, completion: nil)
     }
     
     private func addAnotationTo(restoran: Restoran) {

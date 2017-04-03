@@ -44,10 +44,17 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
     }
     
-    @IBAction func addImage(_ sender: UIButton) {
-        if let camera = camera {
-            present(camera, animated: true, completion: nil)
+    override func viewDidAppear(_ animated: Bool) {
+        if UIImagePickerController.isSourceTypeAvailable(.camera) {
+            camera = UIImagePickerController()
+            camera?.delegate = self
+            camera?.sourceType = .camera
+            camera?.allowsEditing = true
         }
+    }
+    
+    @IBAction func addImage(_ sender: UIButton) {
+        super.startCamera()
     }
     
     @IBAction func save(_ sender: UIButton) {
@@ -94,14 +101,10 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
         }
     }
     
-    //MARK: Image picker controller delegate
-    
-    override func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
-            imageView.image = image
-            pickedImage = UIImagePNGRepresentation(image) as NSData?
-            pickLabel.text = ""
-        }
+    override func imagePicked(data: Data) {
+        imageView.image = UIImage(data: data)
+        pickedImage = data as NSData?
+        pickLabel.text = ""
         dismiss(animated: true, completion: nil)
     }
     
