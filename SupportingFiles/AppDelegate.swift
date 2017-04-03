@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UISplitViewControllerDele
         splitViewController.delegate = self
 
         let masterNavigationController = splitViewController.viewControllers[0] as! UINavigationController
+        masterNavigationController.navigationBar.barTintColor = UIColor(colorLiteralRed: 0, green: 122, blue: 255, alpha: 0.5)
         let controller = masterNavigationController.topViewController as! RestaurantTableVC
         //controller.managedObjectContext = self.persistentContainer.viewContext
         return true

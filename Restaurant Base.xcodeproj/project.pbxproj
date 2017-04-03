@@ -35,6 +35,8 @@
 		021DB8771E92EEF60098664D /* CustomTableVCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020EA7C71E8BDE1A004B91E2 /* CustomTableVCell.swift */; };
 		021DB8781E92EEF60098664D /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024224981E92380D002AA4EF /* CustomAnnotation.swift */; };
 		021DB87A1E9302A90098664D /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DB8791E9302A90098664D /* CustomButton.swift */; };
+		021DB87C1E9313130098664D /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DB87B1E9313130098664D /* CustomTextField.swift */; };
+		021DB87F1E93157A0098664D /* UIImage + Orientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021DB87E1E93157A0098664D /* UIImage + Orientation.swift */; };
 		023C347F1E91A99F00951E16 /* RestaurantAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 023C347E1E91A99F00951E16 /* RestaurantAnnotation.swift */; };
 		024224991E92380D002AA4EF /* CustomAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024224981E92380D002AA4EF /* CustomAnnotation.swift */; };
 		028AD1B91E8AC9A900F1B4C7 /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 028AD1B81E8AC9A900F1B4C7 /* Restaurant.swift */; };
@@ -81,6 +83,8 @@
 		020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataTableViewController.swift; path = ../CoreData/CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		021D60211E900B2D00B9F24B /* AddItemVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemVC.swift; sourceTree = "<group>"; };
 		021DB8791E9302A90098664D /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
+		021DB87B1E9313130098664D /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		021DB87E1E93157A0098664D /* UIImage + Orientation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage + Orientation.swift"; sourceTree = "<group>"; };
 		023C347E1E91A99F00951E16 /* RestaurantAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantAnnotation.swift; sourceTree = "<group>"; };
 		024224981E92380D002AA4EF /* CustomAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		028AD1B81E8AC9A900F1B4C7 /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
@@ -176,6 +180,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		021DB87D1E9315480098664D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				021DB87E1E93157A0098664D /* UIImage + Orientation.swift */,
+			);
+			name = Extension;
+			sourceTree = "<group>";
+		};
 		028AD1BA1E8ACD1500F1B4C7 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +199,7 @@
 		02A5BC8B1E8ABCB600C95C11 = {
 			isa = PBXGroup;
 			children = (
+				021DB87D1E9315480098664D /* Extension */,
 				021DB8681E92B2510098664D /* ModelViewController */,
 				02A5BCCC1E8ABD0F00C95C11 /* ViewController */,
 				020EA7BF1E8BACED004B91E2 /* Service */,
@@ -257,6 +270,7 @@
 				024224981E92380D002AA4EF /* CustomAnnotation.swift */,
 				02A5BCA01E8ABCB600C95C11 /* Main.storyboard */,
 				021DB8791E9302A90098664D /* CustomButton.swift */,
+				021DB87B1E9313130098664D /* CustomTextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -588,11 +602,13 @@
 				020EA7C81E8BDE1A004B91E2 /* CustomTableVCell.swift in Sources */,
 				02A5BC981E8ABCB600C95C11 /* AppDelegate.swift in Sources */,
 				02A5BC9B1E8ABCB600C95C11 /* Restaurant_Base.xcdatamodeld in Sources */,
+				021DB87C1E9313130098664D /* CustomTextField.swift in Sources */,
 				029BC2791E92882A00D061BA /* ImagePickerVC.swift in Sources */,
 				020EA7DD1E8BFDC1004B91E2 /* RestaurantTableVC.swift in Sources */,
 				020EA7D31E8BEE5D004B91E2 /* Restoran+CoreDataProperties.swift in Sources */,
 				020EA7D21E8BEE5D004B91E2 /* Restoran+CoreDataClass.swift in Sources */,
 				020EA7DB1E8BFDA1004B91E2 /* MapVC.swift in Sources */,
+				021DB87F1E93157A0098664D /* UIImage + Orientation.swift in Sources */,
 				021DB87A1E9302A90098664D /* CustomButton.swift in Sources */,
 				020EA7D71E8BF3C9004B91E2 /* PersistenceManager.swift in Sources */,
 				028AD1BC1E8ACD2500F1B4C7 /* Constants.swift in Sources */,

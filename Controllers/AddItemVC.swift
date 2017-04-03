@@ -102,7 +102,9 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
     }
     
     override func imagePicked(data: Data) {
-        imageView.image = UIImage(data: data)
+        let image = UIImage(data: data)
+        _ = image?.fixOrientation()
+        imageView.image = image
         pickedImage = data as NSData?
         pickLabel.text = ""
         dismiss(animated: true, completion: nil)
@@ -111,7 +113,6 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
     //MARK: TextField delegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        createRestaurant()
         return true
     }
     

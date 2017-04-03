@@ -154,6 +154,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Restaurants" id="Zdf-7t-Un8">
+                        <barButtonItem key="backBarButtonItem" title="    " id="g5m-xD-bcT"/>
                         <barButtonItem key="rightBarButtonItem" title="Add" id="7Lg-Bi-AbW">
                             <connections>
                                 <segue destination="exk-w1-Net" kind="show" identifier="addRestaurant" id="SXG-fm-tD9"/>
@@ -165,7 +166,7 @@
             </objects>
             <point key="canvasLocation" x="708" y="-630.13493253373315"/>
         </scene>
-        <!--Add ItemVC-->
+        <!--Add new Restaurant-->
         <scene sceneID="Rpf-np-HZU">
             <objects>
                 <viewController id="exk-w1-Net" customClass="AddItemVC" customModule="Restaurant_Base" customModuleProvider="target" sceneMemberID="viewController">
@@ -177,21 +178,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add new Restaurant" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYc-nr-pVx">
-                                <rect key="frame" x="0.0" y="44" width="375" height="84"/>
-                                <color key="backgroundColor" red="0.0" green="0.61581165140000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="84" id="3Au-RB-Nxo"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="24"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dJK-oX-GxW">
-                                <rect key="frame" x="16" y="152" width="343" height="80"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dJK-oX-GxW">
+                                <rect key="frame" x="16" y="74" width="343" height="120"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter restaurant's name" textAlignment="center" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="e7a-co-VZv">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter restaurant's name" textAlignment="center" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="e7a-co-VZv" customClass="CustomTextField" customModule="Restaurant_Base" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="32g-Gq-LpK"/>
+                                        </constraints>
                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
@@ -199,8 +193,8 @@
                                             <outlet property="delegate" destination="exk-w1-Net" id="sqi-p2-yMk"/>
                                         </connections>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter restaurant's address" textAlignment="center" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="aL2-Fj-GRY">
-                                        <rect key="frame" x="0.0" y="50" width="343" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter restaurant's address" textAlignment="center" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="aL2-Fj-GRY" customClass="CustomTextField" customModule="Restaurant_Base" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="70" width="343" height="50"/>
                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
@@ -211,30 +205,32 @@
                                 </subviews>
                             </stackView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePick" translatesAutoresizingMaskIntoConstraints="NO" id="sW3-wQ-Hq6">
-                                <rect key="frame" x="40" y="256" width="295" height="200"/>
+                                <rect key="frame" x="40" y="218" width="295" height="200"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="5bN-Xk-Jjj"/>
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mb2-Xz-5qE" userLabel="ImgButton">
-                                <rect key="frame" x="40" y="256" width="295" height="200"/>
+                                <rect key="frame" x="40" y="218" width="295" height="200"/>
                                 <connections>
                                     <action selector="addImage:" destination="exk-w1-Net" eventType="touchUpInside" id="dEG-UO-1uK"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pick Image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t7g-Og-gEZ">
-                                <rect key="frame" x="16" y="464" width="343" height="20.5"/>
+                                <rect key="frame" x="16" y="426" width="343" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7SP-Hc-ETy" customClass="CustomButton" customModule="Restaurant_Base" customModuleProvider="target">
-                                <rect key="frame" x="112" y="617" width="150" height="30"/>
+                                <rect key="frame" x="87" y="587" width="200" height="60"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="xVV-J6-eI2"/>
+                                    <constraint firstAttribute="height" constant="60" id="ddF-ZL-UrV"/>
+                                    <constraint firstAttribute="width" constant="200" id="xVV-J6-eI2"/>
                                 </constraints>
-                                <state key="normal" title="Save item">
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="21"/>
+                                <state key="normal" title="Save">
                                     <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 </state>
                                 <connections>
@@ -245,25 +241,23 @@
                         <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="sW3-wQ-Hq6" firstAttribute="trailing" secondItem="9wQ-Pb-Orf" secondAttribute="trailingMargin" constant="-24" id="0LQ-ok-cTx"/>
-                            <constraint firstItem="RYc-nr-pVx" firstAttribute="leading" secondItem="9wQ-Pb-Orf" secondAttribute="leading" id="3EE-Tf-jw8"/>
                             <constraint firstItem="Mb2-Xz-5qE" firstAttribute="centerY" secondItem="sW3-wQ-Hq6" secondAttribute="centerY" id="5F8-kA-3wu"/>
+                            <constraint firstItem="dJK-oX-GxW" firstAttribute="top" secondItem="uwt-vt-3A4" secondAttribute="bottom" constant="30" id="6pT-YU-jRo"/>
                             <constraint firstItem="Mb2-Xz-5qE" firstAttribute="width" secondItem="sW3-wQ-Hq6" secondAttribute="width" id="A8r-rQ-vJa"/>
                             <constraint firstItem="7SP-Hc-ETy" firstAttribute="centerX" secondItem="9wQ-Pb-Orf" secondAttribute="centerX" id="FS5-20-29E"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dJK-oX-GxW" secondAttribute="trailing" id="FsC-Vy-xgc"/>
                             <constraint firstItem="sW3-wQ-Hq6" firstAttribute="top" secondItem="dJK-oX-GxW" secondAttribute="bottom" constant="24" id="IIs-u3-6ck"/>
                             <constraint firstItem="Mb2-Xz-5qE" firstAttribute="height" secondItem="sW3-wQ-Hq6" secondAttribute="height" id="Lqo-aF-FVN"/>
-                            <constraint firstAttribute="trailing" secondItem="RYc-nr-pVx" secondAttribute="trailing" id="Urj-Vf-Dfn"/>
                             <constraint firstItem="t7g-Og-gEZ" firstAttribute="leading" secondItem="9wQ-Pb-Orf" secondAttribute="leadingMargin" id="UxY-e1-f2Q"/>
                             <constraint firstItem="Mb2-Xz-5qE" firstAttribute="centerX" secondItem="sW3-wQ-Hq6" secondAttribute="centerX" id="W6G-F3-LWw"/>
-                            <constraint firstItem="RYc-nr-pVx" firstAttribute="top" secondItem="uwt-vt-3A4" secondAttribute="bottom" id="Y9E-XM-Omx"/>
                             <constraint firstItem="dJK-oX-GxW" firstAttribute="leading" secondItem="9wQ-Pb-Orf" secondAttribute="leadingMargin" id="ZOU-K4-RPg"/>
                             <constraint firstItem="sW3-wQ-Hq6" firstAttribute="leading" secondItem="9wQ-Pb-Orf" secondAttribute="leadingMargin" constant="24" id="acV-zT-K8y"/>
-                            <constraint firstItem="dJK-oX-GxW" firstAttribute="top" secondItem="RYc-nr-pVx" secondAttribute="bottom" constant="24" id="mho-9l-P9u"/>
                             <constraint firstItem="t7g-Og-gEZ" firstAttribute="trailing" secondItem="9wQ-Pb-Orf" secondAttribute="trailingMargin" id="o5O-jL-UAg"/>
                             <constraint firstItem="Z4N-bz-nWE" firstAttribute="top" secondItem="7SP-Hc-ETy" secondAttribute="bottom" constant="20" id="ozM-nS-wZ1"/>
                             <constraint firstItem="t7g-Og-gEZ" firstAttribute="top" secondItem="sW3-wQ-Hq6" secondAttribute="bottom" constant="8" id="vKU-ff-9Gw"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Add new Restaurant" id="AOd-0b-rc1"/>
                     <value key="contentSizeForViewInPopover" type="size" width="100" height="300"/>
                     <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
