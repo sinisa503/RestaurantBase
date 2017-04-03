@@ -151,6 +151,16 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		021DB8681E92B2510098664D /* ModelViewController */ = {
+			isa = PBXGroup;
+			children = (
+				029BC2781E92882A00D061BA /* ImagePickerVC.swift */,
+				020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */,
+			);
+			name = ModelViewController;
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		028AD1BA1E8ACD1500F1B4C7 /* Utilites */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,8 +172,8 @@
 		02A5BC8B1E8ABCB600C95C11 = {
 			isa = PBXGroup;
 			children = (
-				02A5BCCC1E8ABD0F00C95C11 /* Controllers */,
-				02A5BCCD1E8ABD1A00C95C11 /* ViewModel */,
+				021DB8681E92B2510098664D /* ModelViewController */,
+				02A5BCCC1E8ABD0F00C95C11 /* ViewController */,
 				020EA7BF1E8BACED004B91E2 /* Service */,
 				028AD1BA1E8ACD1500F1B4C7 /* Utilites */,
 				02A5BC961E8ABCB600C95C11 /* Resources */,
@@ -235,23 +245,15 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		02A5BCCC1E8ABD0F00C95C11 /* Controllers */ = {
+		02A5BCCC1E8ABD0F00C95C11 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
 				020EA7DC1E8BFDC1004B91E2 /* RestaurantTableVC.swift */,
 				021D60211E900B2D00B9F24B /* AddItemVC.swift */,
-				029BC2781E92882A00D061BA /* ImagePickerVC.swift */,
-				020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */,
 				020EA7DA1E8BFDA1004B91E2 /* MapVC.swift */,
 			);
+			name = ViewController;
 			path = Controllers;
-			sourceTree = "<group>";
-		};
-		02A5BCCD1E8ABD1A00C95C11 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		2E87E1A64D38382D8BBFBE60 /* Frameworks */ = {

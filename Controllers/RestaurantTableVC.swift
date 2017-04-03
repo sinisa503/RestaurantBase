@@ -60,10 +60,6 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
         }
     }
     
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    
     //MARK: ApiService delegate - called when download from web is finished
     func apiFinished(restaurantArray: [Restaurant]?) {
         if let restaurants = restaurantArray {

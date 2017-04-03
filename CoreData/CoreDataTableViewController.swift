@@ -28,7 +28,7 @@ class CoreDataTableViewController: UITableViewController, NSFetchedResultsContro
     // MARK: UITableViewDataSource
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController?.sections?.count ?? 1
+        return  1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,20 +39,21 @@ class CoreDataTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if let sections = fetchedResultsController?.sections , sections.count > 0 {
-            return sections[section].name
-        } else {
-            return nil
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let context = fetchedResultsController?.managedObjectContext
+            context?.delete(self.fetchedResultsController!.object(at: indexPath) as! NSManagedObject)
+            
+            do {
+                try context?.save()
+            } catch let error{
+                fatalError("Unresolved error \(error.localizedDescription)")
+            }
         }
-    }
-    
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return fetchedResultsController?.sectionIndexTitles
-    }
-    
-    override func tableView(_ tableView: UITableView, sectionForSectionIndexTitle title: String, at index: Int) -> Int {
-        return fetchedResultsController?.section(forSectionIndexTitle: title, at: index) ?? 0
     }
     
     // MARK: NSFetchedResultsControllerDelegate
