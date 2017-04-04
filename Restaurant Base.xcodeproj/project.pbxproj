@@ -170,13 +170,13 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		021DB8681E92B2510098664D /* ModelViewController */ = {
+		021DB8681E92B2510098664D /* ViewControllerModel */ = {
 			isa = PBXGroup;
 			children = (
 				029BC2781E92882A00D061BA /* ImagePickerVC.swift */,
 				020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */,
 			);
-			name = ModelViewController;
+			name = ViewControllerModel;
 			path = Controllers;
 			sourceTree = "<group>";
 		};
@@ -199,8 +199,7 @@
 		02A5BC8B1E8ABCB600C95C11 = {
 			isa = PBXGroup;
 			children = (
-				021DB87D1E9315480098664D /* Extension */,
-				021DB8681E92B2510098664D /* ModelViewController */,
+				021DB8681E92B2510098664D /* ViewControllerModel */,
 				02A5BCCC1E8ABD0F00C95C11 /* ViewController */,
 				020EA7BF1E8BACED004B91E2 /* Service */,
 				028AD1BA1E8ACD1500F1B4C7 /* Utilites */,
@@ -209,6 +208,7 @@
 				02A5BCCA1E8ABCFA00C95C11 /* Model */,
 				02A5BCCB1E8ABD0700C95C11 /* View */,
 				020EA7C21E8BC0C5004B91E2 /* CoreData */,
+				021DB87D1E9315480098664D /* Extension */,
 				2E87E1A64D38382D8BBFBE60 /* Frameworks */,
 				58960F262E916A5B91A1F3CB /* Pods */,
 				02A5BC951E8ABCB600C95C11 /* Products */,

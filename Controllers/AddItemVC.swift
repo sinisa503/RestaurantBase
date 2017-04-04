@@ -62,6 +62,7 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
         pickedImage = nil
     }
     
+    /** Presenting Alert **/
     private func invalidAlert(title: String, messagge: String) {
         let alertView = UIAlertController(title: title, message: messagge, preferredStyle: .alert)
         alertView.addAction(UIAlertAction(title: "OK", style: .default , handler: { (action) in
@@ -70,25 +71,7 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
         present(alertView, animated: true, completion: nil)
     }
     
-    private func updateDatabase (newRestoran: Restaurant, with imageData: NSData?) {
-        managedContext?.perform({ [weak self] in
-            if let restoran =  NSEntityDescription.insertNewObject(forEntityName: DataBaseConstants.ENTITY_RESTAURANT, into: (self?.managedContext!)!) as? Restoran {
-                restoran.name = newRestoran.name
-                restoran.address = newRestoran.address
-                restoran.longitude = newRestoran.longitude
-                restoran.latitude = newRestoran.latitude
-                if let image = imageData {
-                    restoran.image = image
-                }
-            }
-            do {
-                try self?.managedContext?.save()
-            }catch let error {
-                print("Error with saveing data. Messagge: \(error.localizedDescription)")
-            }
-        })
-    }
-    
+    /** Create new restaurant if all fields are filled **/
     private func createRestaurant() {
         if  nameLabel.text == "" {
             invalidAlert(title: "Name invalid!", messagge: "You must enter restaurant's name")
@@ -101,6 +84,7 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
         }
     }
     
+    /** overiden from controler model - returnes picked image **/
     override func imagePicked(data: Data) {
         let image = UIImage(data: data)
         _ = image?.fixOrientation()
@@ -115,7 +99,7 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
+    //Dissable keyboard when touched somewhere else
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
     }

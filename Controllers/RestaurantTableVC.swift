@@ -82,6 +82,7 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
     
     //MARK: private funcions
     
+    /** Configure custom cell **/
     private func configure(cell: CustomTableVCell ,at indexPath: IndexPath  ) -> CustomTableVCell{
         var name, address:String?
         var image: UIImage?
@@ -102,12 +103,6 @@ class RestaurantTableVC: CoreDataTableViewController, ApiProtocol {
             }
         }
         return cell
-    }
-    
-    private func fetchDataFromDatabase(context: NSManagedObjectContext) {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName:DataBaseConstants.ENTITY_RESTAURANT)
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: DataBaseConstants.NAME, ascending: true)]
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
     }
     
     private func setUpSplitView() {
