@@ -76,7 +76,7 @@
 		020EA7D81E8BF3FA004B91E2 /* PersistenceManagerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceManagerTest.swift; sourceTree = "<group>"; };
 		020EA7DA1E8BFDA1004B91E2 /* MapVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapVC.swift; sourceTree = "<group>"; };
 		020EA7DC1E8BFDC1004B91E2 /* RestaurantTableVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantTableVC.swift; sourceTree = "<group>"; };
-		020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataTableViewController.swift; path = ../CoreData/CoreDataTableViewController.swift; sourceTree = "<group>"; };
+		020EA7E21E8C5337004B91E2 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataTableViewController.swift; path = ../ViewControllerModel/CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		021D60211E900B2D00B9F24B /* AddItemVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddItemVC.swift; sourceTree = "<group>"; };
 		021DB8791E9302A90098664D /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		021DB87B1E9313130098664D /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
@@ -86,7 +86,7 @@
 		024224981E92380D002AA4EF /* CustomAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		028AD1B81E8AC9A900F1B4C7 /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		028AD1BB1E8ACD2500F1B4C7 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		029BC2781E92882A00D061BA /* ImagePickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerVC.swift; sourceTree = "<group>"; };
+		029BC2781E92882A00D061BA /* ImagePickerVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImagePickerVC.swift; path = ../ViewControllerModel/ImagePickerVC.swift; sourceTree = "<group>"; };
 		02A5BC941E8ABCB600C95C11 /* Restaurant Base.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Restaurant Base.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		02A5BC971E8ABCB600C95C11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		02A5BC9A1E8ABCB600C95C11 /* Restaurant_Base.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Restaurant_Base.xcdatamodel; sourceTree = "<group>"; };

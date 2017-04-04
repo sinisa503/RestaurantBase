@@ -27,9 +27,13 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
         didSet {
             if let restaurant = restaurant {
                 if let image = pickedImage {
-                    persistance.updateDatabaseWith(restaurant: restaurant, andImage: image as Data?)
+                    persistance.context?.perform({ 
+                        self.persistance.updateDatabaseWith(restaurant: restaurant, andImage: image as Data?)
+                    })
                 }else {
-                    persistance.updateDatabaseWith(restaurant: restaurant, andImage: nil)
+                    persistance.context?.perform({
+                        self.persistance.updateDatabaseWith(restaurant: restaurant, andImage: nil)
+                    })
                 }
                 navigationController?.popToRootViewController(animated: true)
             }
