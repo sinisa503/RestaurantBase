@@ -87,7 +87,6 @@ class AddItemVC: ImagePickerVC, UITextFieldDelegate, CLLocationManagerDelegate {
     /** overiden from controler model - returnes picked image **/
     override func imagePicked(data: Data) {
         let image = UIImage(data: data)
-        _ = image?.fixOrientation()
         imageView.image = image
         pickedImage = data as NSData?
         pickLabel.text = ""

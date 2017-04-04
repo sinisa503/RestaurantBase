@@ -27,7 +27,7 @@ class ImagePickerVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerOriginalImage] as? UIImage{
-            if let pickedImage = UIImagePNGRepresentation(image) as Data? {
+            if let pickedImage = UIImageJPEGRepresentation(image, 1.0) as Data?{
                 imagePicked(data: pickedImage)
             }
         }
